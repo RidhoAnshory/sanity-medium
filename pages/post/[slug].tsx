@@ -5,8 +5,8 @@ import { sanityClient, urlFor } from '../../sanity';
 import { Post } from '../../typings';
 import PortableText from 'react-portable-text';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { json } from 'stream/consumers';
 import Head from 'next/head';
+import moment from 'moment';
 
 interface Props {
   post: Post;
@@ -96,7 +96,7 @@ const Post = (props: Props) => {
                   <h1 className="text-xl font-bold my-5" {...props} />
                 ),
                 li: ({ children }: any) => (
-                  <li className="ml-4list-disc">{children}</li>
+                  <li className="ml-4 list-disc">{children}</li>
                 ),
                 link: ({ href, children }: any) => (
                   <a
@@ -189,15 +189,18 @@ const Post = (props: Props) => {
         )}
 
         {/* Comments */}
-        <div className="flex flex-col p-10 my-10 max-w-2xl mx-auto shadow-yellow-500 shadow space-y-2">
+        <div className="flex flex-col p-10 my-10 max-w-2xl mx-auto shadow-yellow-500 shadow space-y-2 h-[400px] overflow-y-scroll scroll-smooth no-scrollbar">
           <h3 className="text-4xl">Comments</h3>
           <hr className="pb-2" />
 
           {post.comments.map((comment) => (
-            <div key={comment._id}>
-              <p>
+            <div key={comment._id} className="flex justify-between items-start">
+              <p className="w-[80%] break-words">
                 <span className="text-yellow-500">{comment.name}: </span>
                 {comment.comment}
+              </p>
+              <p className="w-[30%]">
+                {moment(comment._createdAt).format('ddd, DD MMM - h:mm A')}
               </p>
             </div>
           ))}
